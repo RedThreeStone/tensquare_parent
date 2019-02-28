@@ -1,4 +1,4 @@
-package com.itlei.pojo;
+package com.tensquare.base.pojo;
 
 import lombok.Data;
 

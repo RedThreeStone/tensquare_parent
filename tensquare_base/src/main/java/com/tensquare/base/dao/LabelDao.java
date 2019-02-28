@@ -1,6 +1,6 @@
-package com.itlei.dao;
+package com.tensquare.base.dao;
 
-import com.itlei.pojo.Label;
+import com.tensquare.base.pojo.Label;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

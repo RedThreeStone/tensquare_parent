@@ -1,7 +1,7 @@
-package com.itlei.service;
+package com.tensquare.base.service;
 
-import com.itlei.dao.LabelDao;
-import com.itlei.pojo.Label;
+import com.tensquare.base.dao.LabelDao;
+import com.tensquare.base.pojo.Label;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

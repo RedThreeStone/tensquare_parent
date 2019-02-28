@@ -1,4 +1,4 @@
-package com.itlei;
+package com.tensquare.base;
 
 import static org.junit.Assert.assertTrue;
 

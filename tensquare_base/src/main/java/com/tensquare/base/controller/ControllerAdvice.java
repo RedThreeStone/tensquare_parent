@@ -1,4 +1,4 @@
-package com.itlei.controller;
+package com.tensquare.base.controller;
 
 
 import entity.Result;
