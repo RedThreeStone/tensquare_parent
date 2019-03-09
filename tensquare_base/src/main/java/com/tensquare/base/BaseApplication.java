@@ -5,19 +5,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import util.IdWorker;
 
-/**
- * Hello world!
- *
- */
 @SpringBootApplication
-public class App 
-{
-    public static void main( String[] args )
-    {
-        SpringApplication.run(App.class,args);
+public class BaseApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(BaseApplication.class, args);
     }
+
     @Bean
     public IdWorker idWorker(){
-        return new IdWorker();
+        return new IdWorker(1, 1);
     }
 }

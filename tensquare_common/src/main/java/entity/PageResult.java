@@ -1,12 +1,18 @@
 package entity;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class PageResult<T> implements Serializable {
+public class PageResult <T>{
     private long total;
-
     private List<T> rows;
+
+    public PageResult() {
+    }
+
+    public PageResult(long total, List<T> rows) {
+        this.total = total;
+        this.rows = rows;
+    }
 
     public long getTotal() {
         return total;
@@ -21,14 +27,6 @@ public class PageResult<T> implements Serializable {
     }
 
     public void setRows(List<T> rows) {
-        this.rows = rows;
-    }
-
-    public PageResult() {
-    }
-
-    public PageResult(long total, List<T> rows) {
-        this.total = total;
         this.rows = rows;
     }
 }

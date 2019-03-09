@@ -1,141 +1,102 @@
 package com.tensquare.recruit.pojo;
 
-import javax.persistence.*;
-import java.util.Objects;
-
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
+/**
+ * 实体类
+ * @author Administrator
+ *
+ */
 @Entity
-@Table(name = "tb_enterprise")
-public class Enterprise {
-    private String id;
-    private String name;
-    private String summary;
-    private String address;
-    private String labels;
-    private String coordinate;
-    private String ishot;
-    private String logo;
-    private Integer jobcount;
-    private String url;
+@Table(name="tb_enterprise")
+public class Enterprise implements Serializable{
 
-    @Id
-    @Column(name = "id")
-    public String getId() {
-        return id;
-    }
+	@Id
+	private String id;//ID
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	private String name;//企业名称
+	private String summary;//企业简介
+	private String address;//企业地址
+	private String labels;//标签列表
+	private String coordinate;//坐标
+	private String ishot;//是否热门
+	private String logo;//LOGO
+	private Integer jobcount;//职位数
+	private String url;//URL
 
-    @Basic
-    @Column(name = "name")
-    public String getName() {
-        return name;
-    }
+	
+	public String getId() {		
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getName() {		
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    @Basic
-    @Column(name = "summary")
-    public String getSummary() {
-        return summary;
-    }
+	public String getSummary() {		
+		return summary;
+	}
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
 
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
+	public String getAddress() {		
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
-    @Basic
-    @Column(name = "address")
-    public String getAddress() {
-        return address;
-    }
+	public String getLabels() {		
+		return labels;
+	}
+	public void setLabels(String labels) {
+		this.labels = labels;
+	}
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+	public String getCoordinate() {		
+		return coordinate;
+	}
+	public void setCoordinate(String coordinate) {
+		this.coordinate = coordinate;
+	}
 
-    @Basic
-    @Column(name = "labels")
-    public String getLabels() {
-        return labels;
-    }
+	public String getIshot() {		
+		return ishot;
+	}
+	public void setIshot(String ishot) {
+		this.ishot = ishot;
+	}
 
-    public void setLabels(String labels) {
-        this.labels = labels;
-    }
+	public String getLogo() {		
+		return logo;
+	}
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
 
-    @Basic
-    @Column(name = "coordinate")
-    public String getCoordinate() {
-        return coordinate;
-    }
+	public Integer getJobcount() {		
+		return jobcount;
+	}
+	public void setJobcount(Integer jobcount) {
+		this.jobcount = jobcount;
+	}
 
-    public void setCoordinate(String coordinate) {
-        this.coordinate = coordinate;
-    }
+	public String getUrl() {		
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
 
-    @Basic
-    @Column(name = "ishot")
-    public String getIshot() {
-        return ishot;
-    }
 
-    public void setIshot(String ishot) {
-        this.ishot = ishot;
-    }
-
-    @Basic
-    @Column(name = "logo")
-    public String getLogo() {
-        return logo;
-    }
-
-    public void setLogo(String logo) {
-        this.logo = logo;
-    }
-
-    @Basic
-    @Column(name = "jobcount")
-    public Integer getJobcount() {
-        return jobcount;
-    }
-
-    public void setJobcount(Integer jobcount) {
-        this.jobcount = jobcount;
-    }
-
-    @Basic
-    @Column(name = "url")
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Enterprise that = (Enterprise) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(summary, that.summary) &&
-                Objects.equals(address, that.address) &&
-                Objects.equals(labels, that.labels) &&
-                Objects.equals(coordinate, that.coordinate) &&
-                Objects.equals(ishot, that.ishot) &&
-                Objects.equals(logo, that.logo) &&
-                Objects.equals(jobcount, that.jobcount) &&
-                Objects.equals(url, that.url);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, summary, address, labels, coordinate, ishot, logo, jobcount, url);
-    }
+	
 }

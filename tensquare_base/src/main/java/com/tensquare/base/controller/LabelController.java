@@ -4,53 +4,59 @@ import com.tensquare.base.pojo.Label;
 import com.tensquare.base.service.LabelService;
 import entity.PageResult;
 import entity.Result;
+import entity.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
+import java.util.List;
+
 @RestController
+@CrossOrigin
 @RequestMapping("/label")
 public class LabelController {
     @Autowired
     private LabelService labelService;
 
-    @RequestMapping(method = RequestMethod.POST)
-    public Result addLabel(@RequestBody Label label) {
-        labelService.addLabel(label);
-        return new Result();
-    }
-
-    @RequestMapping(value = "/{labeldId}", method = RequestMethod.DELETE)
-    public Result deleteLabel(@PathVariable("labeldId") String labeldId) {
-        labelService.deleteLabelById(labeldId);
-        return new Result();
-    }
-
-    @RequestMapping(value = "/{labeldId}", method = RequestMethod.PUT)
-    public Result updateLabel(@RequestBody Label label, @PathVariable("labeldId") String labeldId) {
-        labelService.updateLabel(label);
-        return new Result();
+    @RequestMapping(method = RequestMethod.GET)
+    public Result findAll(){
+        return new Result(true, StatusCode.OK, "查询成功", labelService.findAll());
     }
 
     @RequestMapping(value = "/{labelId}", method = RequestMethod.GET)
-    public Result getLabelById(@PathVariable String labelId) {
-        return new Result(labelService.getLabelById(labelId));
+    public Result findById(@PathVariable("labelId") String labelId){
+        int i = 1/0;
+        return new Result(true, StatusCode.OK, "查询成功", labelService.findById(labelId));
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public Result findAllLabel() {
-        return new Result(labelService.findAllLabel());
+    @RequestMapping(method = RequestMethod.POST)
+    public Result save(@RequestBody Label label){
+        labelService.save(label);
+        return new Result(true, StatusCode.OK, "添加成功");
     }
 
-    @RequestMapping(value = "/search",method = RequestMethod.POST)
-    public Result searcheLabel(@RequestBody Label label){
-        return  new Result(labelService.findLabelByClause(label));
+    @RequestMapping(value = "/{labelId}", method = RequestMethod.PUT)
+    public Result update(@PathVariable String labelId, @RequestBody Label label){
+        label.setId(labelId);
+        labelService.update(label);
+        return new Result(true, StatusCode.OK, "更新成功");
     }
 
-    @RequestMapping(value = "/search/{pageNum}/{pageSize}",method = RequestMethod.POST)
-    public PageResult searcheLabel(@RequestBody Label label,@PathVariable int pageNum,@PathVariable int pageSize){
-        Page<Label> labelForPage = labelService.findLabelForPage(label, pageNum, pageNum);
-        return  new PageResult<Label>(labelForPage.getTotalElements(),labelForPage.getContent());
+    @RequestMapping(value = "/{labelId}", method = RequestMethod.DELETE)
+    public Result deleteById(@PathVariable String labelId){
+        labelService.deleteById(labelId);
+        return new Result(true, StatusCode.OK, "删除成功");
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    public Result findSearch(@RequestBody Label label){
+        List<Label> list = labelService.findSearch(label);
+        return new Result(true, StatusCode.OK, "查询成功", list);
+    }
+
+    @RequestMapping(value = "/search/{page}/{size}", method = RequestMethod.POST)
+    public Result pageQuery(@RequestBody Label label, @PathVariable int page, @PathVariable int size){
+        Page<Label> pageData = labelService.pageQuery(label, page, size);
+        return new Result(true, StatusCode.OK, "查询成功", new PageResult<Label>(pageData.getTotalElements(), pageData.getContent()));
     }
 }
