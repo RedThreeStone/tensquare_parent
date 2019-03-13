@@ -1,0 +1,13 @@
+server: 
+  port: 9008
+spring:
+  application:
+    name: tensquare_search
+  data:
+    elasticsearch:
+      cluster-nodes: 129.204.215.187:9300
+      cluster-name: docker-cluster
+logging:
+  root:
+    level: DEBUG
+
