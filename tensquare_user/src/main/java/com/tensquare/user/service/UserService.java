@@ -10,18 +10,19 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import util.IdWorker;
+import com.tensquare.user.config.JwtUtil;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 服务层
@@ -44,14 +45,14 @@ public class UserService {
 	@Autowired
 	private RabbitTemplate rabbitTemplate;
 
-//	@Autowired
-//	private BCryptPasswordEncoder encoder;
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 
-//	@Autowired
-//	private HttpServletRequest request;
-//
-//	@Autowired
-//	private JwtUtil jwtUtil;
+	@Autowired
+	private HttpServletRequest request;
+
+	@Autowired
+	private JwtUtil jwtUtil;
 
 	/**
 	 * 查询全部列表
@@ -100,16 +101,16 @@ public class UserService {
 	 * @param user
 	 */
 	public void add(User user) {
-//		user.setId( idWorker.nextId()+"" );
-//		//密码加密
-//		user.setPassword(encoder.encode(user.getPassword()));
-//		user.setFollowcount(0);//关注数
-//		user.setFanscount(0);//粉丝数
-//		user.setOnline(0L);//在线时长
-//		user.setRegdate(new Date());//注册日期
-//		user.setUpdatedate(new Date());//更新日期
-//		user.setLastdate(new Date());//最后登陆日期
-//		userDao.save(user);
+		user.setId( idWorker.nextId()+"" );
+		//密码加密
+		user.setPassword(encoder.encode(user.getPassword()));
+		user.setFollowcount(0);//关注数
+		user.setFanscount(0);//粉丝数
+		user.setOnline(0L);//在线时长
+		user.setRegdate(new Date());//注册日期
+		user.setUpdatedate(new Date());//更新日期
+		user.setLastdate(new Date());//最后登陆日期
+		userDao.save(user);
 	}
 
 	/**
@@ -125,11 +126,11 @@ public class UserService {
 	 * @param id
 	 */
 	public void deleteById(String id) {
-//		String token = (String) request.getAttribute("claims_admin");
-//		if (token==null || "".equals(token)){
-//			throw new RuntimeException("权限不足！");
-//		}
-//		userDao.deleteById(id);
+		String token = (String) request.getAttribute("claims_admin");
+		if (token==null || "".equals(token)){
+			throw new RuntimeException("权限不足！");
+		}
+		userDao.deleteById(id);
 	}
 
 	/**
@@ -190,11 +191,16 @@ public class UserService {
 
 
 	public User login(String mobile, String password) {
-//		User user = userDao.findByMobile(mobile);
-//		if(user!=null && encoder.matches(password, user.getPassword())){
-//			return user;
-//		}
-		return null;
+        User user = userDao.findByMobile(mobile);
+        if(user == null){
+            return  null;
+        }
+        String crePassword = user.getPassword();
+		if(encoder.matches(password, crePassword)){
+			return user;
+		}else {
+			return  null;
+		}
 	}
 
 	@Transactional
@@ -212,7 +218,7 @@ public class UserService {
 		if(StringUtils.isNotEmpty(redisCode)){
 			throw  new Exception("验证码过期时间为五分钟，禁止重复发送！！");
 		}
-		redisTemplate.opsForValue().set("sendSms_" + mobile,code);
+		redisTemplate.opsForValue().set("sendSms_" + mobile,code,6, TimeUnit.HOURS);
 
 		//控制一台打印
 		System.out.println(code);
@@ -220,6 +226,6 @@ public class UserService {
 		Map map=new HashMap();
 		map.put("phone",mobile);
 		map.put("code",code);
-		rabbitTemplate.convertAndSend("sms",code);
+		rabbitTemplate.convertAndSend("sms",map);
 	}
 }
